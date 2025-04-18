@@ -354,5 +354,6 @@ document.addEventListener('keydown', function (event) {
       });
     }
     dots = {};
+    if (initialPoint) makeDot(universe, 1200, vh * .94);
   }
 });
