@@ -18,7 +18,6 @@ var str2num = function str2num(str) {
   return parseInt(str.slice(0, -2));
 };
 
-var initialPoint = true;
 
 var vw = window.innerWidth || 2000;
 var vh = window.innerHeight || 2000;
@@ -318,7 +317,6 @@ var makeDot = function makeDot(parent, x, y) {
     slope: slope,
     islope: islope
   });
-  console.log({dots})
 };
 
 var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
@@ -354,7 +352,6 @@ document.addEventListener('keydown', function (event) {
       });
     }
   }
-  dots = {};
   if (initialPoint) makeDot(universe, 1200, vh * .94);
 });
 

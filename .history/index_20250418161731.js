@@ -18,8 +18,6 @@ var str2num = function str2num(str) {
   return parseInt(str.slice(0, -2));
 };
 
-var initialPoint = true;
-
 var vw = window.innerWidth || 2000;
 var vh = window.innerHeight || 2000;
 var len = 3 * (vh + vw);
@@ -48,15 +46,16 @@ line.style['left'] = '200px';
 line.style['top'] = '0px';
 line.style['overflow'] = 'hidden';
 getpos(line);
-setpos(line, floor(vw / 2), floor(vh * .95)); //setpos(line,0,0);
+setpos(line, floor(vw / 2), floor(vh - 200)); //setpos(line,0,0);
 
 getpos(line);
 var start = null;
 var canRotate = false;
-var slope = 180;
+var slope = 100;
 var shouldUseislope = false;
 var nextDot;
 var nextDotDeg = 365;
+var pivotingArroundPoint = false;
 var digs = [];
 var curDot;
 var tic = 0;
@@ -81,6 +80,7 @@ function doStuff() {
   if (tryslope >= nextDotDeg && linebuffer < nextDotDeg) {
     
     setpos(line, nextDot.x, nextDot.y);
+    pivotingArroundPoint = true;
     nextDot.ref.className = "hit";
 
     if (navigator.vibrate) {
@@ -186,7 +186,8 @@ function doStuff() {
   }
 
   if(canRotate){
-    line.style.transform = "rotate(".concat(360 - slope, "deg)");
+    var r = ""
+    line.style.transform = r + "rotate(".concat(360 - slope, "deg)");
     slope = slope + .5;
   }
 
@@ -221,9 +222,7 @@ var makeDot = function makeDot(parent, x, y) {
     y: y,
     ref: newDot
   };
-  console.log({
-    dots: dots
-  });
+  
   var p1 = getpos(line);
   var pdiff = 0;
   digs = [];
@@ -318,7 +317,6 @@ var makeDot = function makeDot(parent, x, y) {
     slope: slope,
     islope: islope
   });
-  console.log({dots})
 };
 
 var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
@@ -341,7 +339,7 @@ document.addEventListener('keydown', function (event) {
   if (event.code === 'Enter' || event.key === 'Enter' || event.keyCode === 13) {
     event.preventDefault(); // Prevent default behavior
 
-
+    
     // Make sure universe element exists
     if (universe) {
       // Remove all children
@@ -353,9 +351,8 @@ document.addEventListener('keydown', function (event) {
         }
       });
     }
+    makeDot(universe, 1200, 620);
   }
-  dots = {};
-  if (initialPoint) makeDot(universe, 1200, vh * .94);
 });
 
-if (initialPoint) makeDot(universe, 1200, vh * .94); 
+makeDot(universe, 1200, 620);

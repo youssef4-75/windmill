@@ -18,13 +18,10 @@ var str2num = function str2num(str) {
   return parseInt(str.slice(0, -2));
 };
 
-var initialPoint = true;
-
 var vw = window.innerWidth || 2000;
 var vh = window.innerHeight || 2000;
 var len = 3 * (vh + vw);
 var dots = {};
-var dkwtd = 10
 
 var getpos = function getpos(elm) {
   var rect = elm.getBoundingClientRect();
@@ -44,16 +41,16 @@ var setpos = function setpos(elm, x, y) {
 var universe = document.querySelector('#main');
 var line = document.querySelector('.line');
 line.style['width'] = "".concat(len, "px");
-line.style['left'] = '200px';
+line.style['left'] = '0px';
 line.style['top'] = '0px';
 line.style['overflow'] = 'hidden';
 getpos(line);
-setpos(line, floor(vw / 2), floor(vh * .95)); //setpos(line,0,0);
+setpos(line, floor(vw / 2), floor(vh / 2)); //setpos(line,0,0);
 
 getpos(line);
 var start = null;
 var canRotate = false;
-var slope = 180;
+var slope = 0;
 var shouldUseislope = false;
 var nextDot;
 var nextDotDeg = 365;
@@ -77,8 +74,9 @@ function doStuff() {
 
   var tryslope = shouldUseislope ? islope : slope;
   var linebuffer = tryslope - .6;
+  var shouldPivot = tryslope == 0 && nextDotDeg < 360 && nextDotDeg > 359;
 
-  if (tryslope >= nextDotDeg && linebuffer < nextDotDeg) {
+  if (shouldPivot || tryslope >= nextDotDeg && linebuffer < nextDotDeg) {
     
     setpos(line, nextDot.x, nextDot.y);
     nextDot.ref.className = "hit";
@@ -187,7 +185,7 @@ function doStuff() {
 
   if(canRotate){
     line.style.transform = "rotate(".concat(360 - slope, "deg)");
-    slope = slope + .5;
+    slope = slope + 1;
   }
 
   if (slope === 360) {
@@ -196,16 +194,13 @@ function doStuff() {
 }
 
 function step(timestamp) {
-  /* if (!start) start = timestamp;
+  if (!start) start = timestamp;
   var progress = timestamp - start;
-  (step);
-  if (progress >= dkwtd) {
-    doStuff();
-    console.log({progress, dkwtd, start})
-    start = timestamp;
-   } */
   doStuff();
-  setTimeout(step, dkwtd);
+  window.requestAnimationFrame(step);
+  /* if (progress < dkwtd) {
+     window.requestAnimationFrame(step);
+   } */
 }
 
 window.requestAnimationFrame(step);
@@ -318,7 +313,6 @@ var makeDot = function makeDot(parent, x, y) {
     slope: slope,
     islope: islope
   });
-  console.log({dots})
 };
 
 var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
@@ -336,26 +330,5 @@ document.addEventListener('keydown', function (event) {
     turnOnOff(); // Call your function
   }
 });
-document.addEventListener('keydown', function (event) {
-  // Check if the pressed key is Enter/Return
-  if (event.code === 'Enter' || event.key === 'Enter' || event.keyCode === 13) {
-    event.preventDefault(); // Prevent default behavior
 
-
-    // Make sure universe element exists
-    if (universe) {
-      // Remove all children
-      const children = Array.from(universe.children);
-
-      children.forEach(child => {
-        if (!child.classList.contains('keep')) {
-          universe.removeChild(child);
-        }
-      });
-    }
-  }
-  dots = {};
-  if (initialPoint) makeDot(universe, 1200, vh * .94);
-});
-
-if (initialPoint) makeDot(universe, 1200, vh * .94); 
+document

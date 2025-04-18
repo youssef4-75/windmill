@@ -18,8 +18,6 @@ var str2num = function str2num(str) {
   return parseInt(str.slice(0, -2));
 };
 
-var initialPoint = true;
-
 var vw = window.innerWidth || 2000;
 var vh = window.innerHeight || 2000;
 var len = 3 * (vh + vw);
@@ -48,12 +46,12 @@ line.style['left'] = '200px';
 line.style['top'] = '0px';
 line.style['overflow'] = 'hidden';
 getpos(line);
-setpos(line, floor(vw / 2), floor(vh * .95)); //setpos(line,0,0);
+setpos(line, floor(vw / 2), floor(vh / 2)); //setpos(line,0,0);
 
 getpos(line);
 var start = null;
 var canRotate = false;
-var slope = 180;
+var slope = 100;
 var shouldUseislope = false;
 var nextDot;
 var nextDotDeg = 365;
@@ -77,8 +75,10 @@ function doStuff() {
 
   var tryslope = shouldUseislope ? islope : slope;
   var linebuffer = tryslope - .6;
+  var shouldPivot = tryslope == 0 && nextDotDeg < 360 && nextDotDeg > 359;
+  console.log()
 
-  if (tryslope >= nextDotDeg && linebuffer < nextDotDeg) {
+  if (shouldPivot || tryslope >= nextDotDeg && linebuffer < nextDotDeg) {
     
     setpos(line, nextDot.x, nextDot.y);
     nextDot.ref.className = "hit";
@@ -318,7 +318,6 @@ var makeDot = function makeDot(parent, x, y) {
     slope: slope,
     islope: islope
   });
-  console.log({dots})
 };
 
 var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
@@ -341,7 +340,6 @@ document.addEventListener('keydown', function (event) {
   if (event.code === 'Enter' || event.key === 'Enter' || event.keyCode === 13) {
     event.preventDefault(); // Prevent default behavior
 
-
     // Make sure universe element exists
     if (universe) {
       // Remove all children
@@ -354,8 +352,4 @@ document.addEventListener('keydown', function (event) {
       });
     }
   }
-  dots = {};
-  if (initialPoint) makeDot(universe, 1200, vh * .94);
 });
-
-if (initialPoint) makeDot(universe, 1200, vh * .94); 
