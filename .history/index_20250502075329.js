@@ -190,7 +190,7 @@ function doStuff() {
   }
 }
 
-function step(_) {
+function step(timestamp) {
   doStuff();
   setTimeout(step, dkwtd);
 }

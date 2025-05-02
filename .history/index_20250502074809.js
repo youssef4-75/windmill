@@ -15,14 +15,14 @@ var str2num = function str2num(str) {
   return parseInt(str.slice(0, -2));
 };
 
-var vw = window.innerWidth || 2000;  // the view width of the window
-var vh = window.innerHeight || 2000;  // the view height of the window
-var len = 3 * (vh + vw);  // the length of the line, supposed to be infinite
-var dots = {};  // the dots on the line, stored as an object with x,y coordinates as keys
-var dkwtd = 10  // the delay between each step in milliseconds, used to control the speed of the line, the bigger the number the slower the line moves
+var vw = window.innerWidth || 2000;
+var vh = window.innerHeight || 2000;
+var len = 3 * (vh + vw);
+var dots = {};
+var dkwtd = 10
 
 var getpos = function getpos(elm) {
-  // a function to get the position of any element as an Object {x, y}
+  var rect = elm.getBoundingClientRect();
   var x = str2num(elm.style.left) + floor(len / 2);
   var y = str2num(elm.style.top);
   return {
@@ -32,18 +32,19 @@ var getpos = function getpos(elm) {
 };
 
 var setpos = function setpos(elm, x, y) {
-  // a function to set the position of any element
   elm.style.left = "".concat(x - floor(len / 2), "px");
   elm.style.top = "".concat(y, "px");
 };
 
-var universe = document.querySelector('#main');  // the main region where the scene is a live
-var line = document.querySelector('.line');  // the line that will be drawn on the screen
+var universe = document.querySelector('#main');
+var line = document.querySelector('.line');
 line.style['width'] = "".concat(len, "px");
 line.style['left'] = '200px';
 line.style['top'] = '0px';
+getpos(line);
 setpos(line, floor(universe.offsetWidth / 2), floor(universe.offsetHeight * .95)); //setpos(line,0,0);
 
+getpos(line);
 var start = null;
 var canRotate = false;
 var slope = 180;
@@ -51,10 +52,10 @@ var shouldUseislope = false;
 var nextDot;
 var nextDotDeg = 365;
 var digs = [];
-
+var curDot;
+var tic = 0;
 
 function turnOnOff(){
-  // the function that start and stop the line rotation
   canRotate = !canRotate;
   const button = document.getElementById('launcher');
   if (canRotate) {
@@ -66,10 +67,9 @@ function turnOnOff(){
 }
 
 function doStuff() {
-  // the animation loop that will be called every 
+
   var islope = slope + 180;
 
-  //decide whether to use the slope or the islope
   if (islope < 0) {
     islope = 360 + islope;
   } else if (islope > 360) {
@@ -79,7 +79,6 @@ function doStuff() {
   var tryslope = shouldUseislope ? islope : slope;
   var linebuffer = tryslope - .6;
 
-  // change the pivot
   if (tryslope >= nextDotDeg && linebuffer < nextDotDeg) {
     
     setpos(line, nextDot.x, nextDot.y);
@@ -190,7 +189,7 @@ function doStuff() {
   }
 }
 
-function step(_) {
+function step(timestamp) {
   doStuff();
   setTimeout(step, dkwtd);
 }

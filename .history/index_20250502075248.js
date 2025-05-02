@@ -69,7 +69,7 @@ function doStuff() {
   // the animation loop that will be called every 
   var islope = slope + 180;
 
-  //decide whether to use the slope or the islope
+  
   if (islope < 0) {
     islope = 360 + islope;
   } else if (islope > 360) {
@@ -79,7 +79,6 @@ function doStuff() {
   var tryslope = shouldUseislope ? islope : slope;
   var linebuffer = tryslope - .6;
 
-  // change the pivot
   if (tryslope >= nextDotDeg && linebuffer < nextDotDeg) {
     
     setpos(line, nextDot.x, nextDot.y);
@@ -190,7 +189,7 @@ function doStuff() {
   }
 }
 
-function step(_) {
+function step(timestamp) {
   doStuff();
   setTimeout(step, dkwtd);
 }

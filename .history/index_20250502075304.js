@@ -79,7 +79,6 @@ function doStuff() {
   var tryslope = shouldUseislope ? islope : slope;
   var linebuffer = tryslope - .6;
 
-  // change the pivot
   if (tryslope >= nextDotDeg && linebuffer < nextDotDeg) {
     
     setpos(line, nextDot.x, nextDot.y);
@@ -190,7 +189,7 @@ function doStuff() {
   }
 }
 
-function step(_) {
+function step(timestamp) {
   doStuff();
   setTimeout(step, dkwtd);
 }
