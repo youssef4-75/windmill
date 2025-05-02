@@ -1,6 +1,7 @@
 # windmill simulation
 
 source : [https://aalluri7.github.io/windmill/](https://aalluri7.github.io/windmill/)
+i made some changes on it locally, and then pushed it
 
 Click or tap on screen to create dots.
 click space button to stop or start the windmill rotation
