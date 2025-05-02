@@ -1,0 +1,85 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.full-size {
+    height: 90%;
+    width: 100%;
+    overflow: hidden;
+    /* or overflow:auto; if you want scrollbars */
+}
+
+#main {
+    background-color: black;
+}
+
+.line {
+    width: 50px;
+    height: 2px;
+    background-color: white;
+    /* background: linear-gradient(90deg, red 50%, blue 50%); */
+    position: fixed;
+    top: 0px;
+    left: -25px;
+    overflow: hidden;
+    z-index: 0;
+    
+}
+
+.hit {
+    position: fixed;
+    height: 10px;
+    width: 10px;
+    background-color: green;
+    transform: translate(-50%, -50%);
+    border-radius: 100%;
+}
+
+.dot {
+    position: fixed;
+    height: 10px;
+    width: 10px;
+    background-color: pink;
+    transform: translate(-50%, -50%);
+    border-radius: 100%;
+}
+
+/*---------------*/
+
+#launcher {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    bottom: 7px;
+    background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
+    border-radius: .5rem;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-size: 16px;
+    justify-content: center;
+    padding: 1rem 1.75rem;
+    text-decoration: none;
+    width: 30%;
+    margin-top: 30px;
+    border: 0;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    z-index: 10;
+}
+
+#launcher:hover {
+    background-image: linear-gradient(-180deg, #1D95C9 0%, #17759C 100%);
+}
+
+@media (min-width: 768px) {
+    #launcher {
+        padding: 1rem 2rem;
+    }
+}
